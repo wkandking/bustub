@@ -119,12 +119,12 @@ auto main(int argc, char **argv) -> int {
     return 1;
   }
 
-  uint64_t duration_ms = 30000;
+  uint64_t duration_ms = 5000;
   if (program.present("--duration")) {
     duration_ms = std::stoi(program.get("--duration"));
   }
 
-  uint64_t latency_ms = 0;
+  uint64_t latency_ms = 1;
   if (program.present("--latency")) {
     latency_ms = std::stoi(program.get("--latency"));
   }

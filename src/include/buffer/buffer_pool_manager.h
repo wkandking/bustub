@@ -199,6 +199,8 @@ class BufferPoolManager {
    */
   auto AllocatePage() -> page_id_t;
 
+  auto getNewFrame(page_id_t *page_id, bool is_new = true) -> Page *;
+
   /**
    * @brief Deallocate a page on disk. Caller should acquire the latch before calling this function.
    * @param page_id id of the page to deallocate

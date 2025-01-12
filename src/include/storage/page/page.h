@@ -45,11 +45,16 @@ class Page {
   /** @return the page id of this page */
   inline auto GetPageId() -> page_id_t { return page_id_; }
 
+  inline auto SetPageId(page_id_t page_id) -> void { page_id_ = page_id; }
+
   /** @return the pin count of this page */
   inline auto GetPinCount() -> int { return pin_count_; }
+  inline auto Pin() -> void { ++pin_count_; }
+  inline auto Unpin() -> void { --pin_count_; }
 
   /** @return true if the page in memory has been modified from the page on disk, false otherwise */
   inline auto IsDirty() -> bool { return is_dirty_; }
+  inline auto MarkDirty(bool is_dirty) -> void { is_dirty_ = is_dirty; }
 
   /** Acquire the page write latch. */
   inline void WLatch() { rwlatch_.WLock(); }
@@ -80,6 +85,12 @@ class Page {
  private:
   /** Zeroes out the data that is held within the page. */
   inline void ResetMemory() { memset(data_, OFFSET_PAGE_START, BUSTUB_PAGE_SIZE); }
+
+  inline void ResetMetadata() {
+    page_id_ = INVALID_PAGE_ID;
+    pin_count_ = 0;
+    is_dirty_ = false;
+  }
 
   /** The actual data that is stored within a page. */
   // Usually this should be stored as `char data_[BUSTUB_PAGE_SIZE]{};`. But to enable ASAN to detect page overflow,
